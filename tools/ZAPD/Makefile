@@ -23,8 +23,8 @@ ifneq ($(DEBUG),0)
   CXXFLAGS += -g3 -DDEVELOPMENT -D_DEBUG
   COPYCHECK_ARGS += --devel
   DEPRECATION_ON = 0
-else
-  CXXFLAGS += -Werror
+# else
+#   CXXFLAGS += -Werror
 endif
 
 ifeq ($(OPTIMIZATION_ON),0)
@@ -57,7 +57,7 @@ ifneq ($(UNAME), Darwin)
     LDFLAGS += -Wl,-export-dynamic -lstdc++fs
 endif
 
-ZAPD_SRC_DIRS := $(shell find ZAPD -type d)
+ZAPD_SRC_DIRS := $(shell gfind ZAPD -type d)
 SRC_DIRS = $(ZAPD_SRC_DIRS) lib/tinyxml2
 
 ZAPD_CPP_FILES := $(foreach dir,$(ZAPD_SRC_DIRS),$(wildcard $(dir)/*.cpp))
@@ -115,4 +115,4 @@ ZAPDUtils:
 
 # Linking
 ZAPD.out: $(O_FILES) lib/libgfxd/libgfxd.a ExporterTest ZAPDUtils
-	$(CXX) $(CXXFLAGS) $(O_FILES) lib/libgfxd/libgfxd.a ZAPDUtils/ZAPDUtils.a -Wl,--whole-archive ExporterTest/ExporterTest.a -Wl,--no-whole-archive $(LDFLAGS) $(OUTPUT_OPTION)
+	$(CXX) $(CXXFLAGS) $(O_FILES) lib/libgfxd/libgfxd.a ZAPDUtils/ZAPDUtils.a -Wl ExporterTest/ExporterTest.a -Wl $(LDFLAGS) $(OUTPUT_OPTION)
